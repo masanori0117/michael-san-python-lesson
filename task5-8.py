@@ -2,7 +2,6 @@
 # 1~10までの数字をfor文を使って出力してください
 print("### 5. for文の基礎")
 print("# 1~10までの数字をfor文を使って出力してください")
-
 for number in range(1, 11):
     print(number)
 
@@ -10,8 +9,6 @@ for number in range(1, 11):
 # 35 ~ 46までの数字をfor文を使って出力してください
 print("### 6. for文の基礎２")
 print("# 35 ~ 46までの数字をfor文を使って出力してください")
-
-
 for number in range(35, 47):
     print(number)
 
