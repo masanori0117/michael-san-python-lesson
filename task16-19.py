@@ -1,89 +1,91 @@
 ### 16. リストの作成とアクセス
 print("1. 空のリストを作成し、表示してください。")
-list1 = []
-print(list1)
+nums = []
+print(nums)
 
 print("")
 print("2. 数字のリスト `[1, 2, 3, 4, 5]` を作成し、リストの最初の要素と最後の要素を表示してください。")
-list2 = [1,2,3,4,5]
-print(list2[0])
-print(list2[-1])
+nums = [1, 2, 3, 4, 5]
+
+print(nums)
+print(f"最初の要素: {nums[0]}")
+print(f"最後の要素: {nums[-1]}")
 
 print("")
 ### 17. リストの操作
 print("1. リスト `[1, 2, 3, 4, 5]` に要素 `6` を追加してください。")
-list2.append(6)
-print(list2)
+nums.append(6)
+print(nums)
 
 print("")
 
 print("2. リスト `[1, 2, 3, 4, 5]` の3番目の要素を `10` に変更してください。")
-list3 = [1, 2, 3, 4, 5]
-list3[2] = 10
-print(list3)
+nums = [1, 2, 3, 4, 5]
+nums[2] = 10
+print(nums)
 print("")
 
 
 print("3. リスト `[1, 2, 3, 4, 5]` から要素 `3` を削除してください。")
-list4 = [1, 2, 3, 4, 5]
-list4.remove(3)
-print(list4)
+nums = [1, 2, 3, 4, 5]
+nums.remove(3)
+print(nums)
 print("")
 
 print("4. リスト `[1, 2, 3, 4, 5]` を逆順にしてください。")
-list5 = [1, 2, 3, 4, 5]
-list5.reverse()
-print(list5)
+nums = [1, 2, 3, 4, 5]
+nums.reverse()
+print(nums)
 print("")
 
 ### 18. リストの操作（応用）
 
 print("1. リスト `[1, 2, 3, 4, 5]` の要素を全て2倍にするコードを書いてください。")
-list6 = [1, 2, 3, 4, 5]
-list6 = [number * 2 for number in list6]
-print(list6)
+nums = [1, 2, 3, 4, 5]
+nums = [num * 2 for num in nums]
+print(nums)
 
 print("")
 
 print("2. リスト `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` から偶数だけを取り出して新しいリストを作成してください。")
-list7 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-list8 = []
-for number in list7:
-    if number % 2 == 0:
-        list8.append(number)
-print(list8)
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+even_nums = []
+for num in nums:
+    if num % 2 == 0:
+        even_nums.append(num)
+print(even_nums)
 print("")
 
 print("3. 文字列リスト `['apple', 'banana', 'cherry']` の各要素の長さを表示してください。")
-list9 = ['apple', 'banana', 'cherry']
-for item in list9:
-    print(len(item))
+fruits = ['apple', 'banana', 'cherry']
+for fruit in fruits:
+    print(f"{fruit}の要素長さ: {len(fruit)} ")
 print("")
 
 print("4. リスト `[1, 2, 3, 4, 5]` と `[6, 7, 8, 9, 10]` を結合してください。")
-list10 = [1, 2, 3, 4, 5]
-list11 = [6, 7, 8, 9, 10]
-list_sum = list10 + list11
-print(list_sum)
+nums = [1, 2, 3, 4, 5]
+nums2 = [6, 7, 8, 9, 10]
+sum = nums + nums2
+print(sum)
 print("")
 
 ### 19. リスト内包表記
 print("1. リスト `[1, 2, 3, 4, 5]` の各要素を3倍にした新しいリストを作成してください。")
-list12 = [1, 2, 3, 4, 5]
-list13 = []
+nums = [1, 2, 3, 4, 5]
+nums_3times = []
 
-for number in list12:
-    number_x3 = number * 3
-    list13.append(number_x3)
-print(list13)
+for num in nums:
+    num_3times = num * 3
+    nums_3times.append(num_3times)
+print(nums_3times)
 print("")
 
 print("2. リスト `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` から奇数だけを取り出して新しいリストを作成してください。")
-list14 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-list15 = []
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+nums_odd = []
 
-for number in list14:
-    if number %2 != 0:
-        list15.append(number)
-print(list15)
+for num in nums:
+    if num % 2 != 0:
+        nums_odd.append(num)
+print(nums_odd)
 print("")
