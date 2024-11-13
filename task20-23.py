@@ -48,8 +48,6 @@ print(matrix[1])
 print("")
 
 print("2. 二次元リスト `[[1, 2, 3], [4, 5, 6], [7, 8, 9]]` の各行の最初の要素を取り出してリストにしてください。")
-first_elements = []
-for first_element in matrix:
-    first_elements.append(first_element[0])
+first_elements = [row[0] for row in matrix]
 print(first_elements)
 print("")
