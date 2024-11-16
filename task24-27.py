@@ -2,8 +2,7 @@
 print("2つの整数を受け取り、その和を返す関数 `add` を定義してください。その後、関数を使って `3` と `5` の和を表示してください。")
 
 def add (num1, num2):
-    total_num = num1 + num2
-    return total_num
+    return num1 + num2
 
 print(add(3,5))
 
@@ -13,8 +12,7 @@ print("1つの整数を受け取り、その値が偶数か奇数かを判定し
 def even_or_odd (num):
     if num % 2 == 0:
         return "even"
-    else:
-        return "odd"
+    return "odd"
 
 print(even_or_odd(4))
 print(even_or_odd(7))
