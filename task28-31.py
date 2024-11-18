@@ -8,8 +8,8 @@ print("")
 
 ### 29. 可変長引数
 print("複数の整数を受け取り、それらの合計を返す関数 `sum_all` を定義してください。その後、関数を使って `1, 2, 3, 4, 5` の合計を表示してください。")
-def sum_all(num1, num2, num3, num4, num5):
-    return num1 + num2 + num3 + num4 + num5
+def sum_all(*args):
+    return sum(args)
 print(sum_all(1, 2, 3, 4, 5))
 print("")
 
@@ -28,4 +28,4 @@ nums = (10, 20, 30, 40, 50)
 if 30 in nums:
     print("True")
 else:
-    print("false")
+    print("False")
