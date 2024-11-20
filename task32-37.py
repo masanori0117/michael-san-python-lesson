@@ -34,8 +34,8 @@ print("")
 print("1. タプル `(1, 2, 3, 4, 5)` をリストに変換し、逆順にして表示してください。")
 nums_tuple = (1, 2, 3, 4, 5)
 nums = list(nums_tuple)
-nums.reverse()
-print(nums)
+reversed_nums = nums[::-1]
+print(reversed_nums)
 print("")
 
 ### 37. リストからタプルへの変換
