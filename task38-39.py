@@ -10,9 +10,9 @@ print("")
 ### 39. 標準入力
 print("次の仕様に従って、ユーザーの名前と年齢を入力し、最終的なメッセージを出力するプログラムを作成してください。")
 
-def get_user_info():
+def main():
 
-    while True:
+    def input_name():
         # 名前を入力
         name = input("あなたの名前を教えてください。")
 
@@ -20,12 +20,16 @@ def get_user_info():
         # 空白と名前の長さ(10文字以下)のバリデーション
         if name == "" or name is None:
             print("名前を入力してください")
+            return input_name()
+
         elif len(name) > 10:
             print("名前は10文字以内で入力してください")
-        else:
-            break
+            return input_name()
 
-    while True:
+        else:
+            return name
+
+    def input_age():
         # 年齢を入力
         age = input(f"{name}さん、あなたの年齢は何歳ですか？")
 
@@ -33,25 +37,28 @@ def get_user_info():
         # 空白のバリデーション
         if age == "" or age is None:
             print("年齢を入力してください")
-            continue
+            return input_age()
         # 数字の入力のバリデーション
         if not age.isdigit():
             print("年齢は数字を入力してください")
-            continue
+            return input_age()
 
         # 0歳以上かどうかのバリデーション
         if age.isdigit():
             age = int(age)
             if age >= 0:
-                break
+                return age
             else:
                 print("年齢は0以上の正の数字を入力してください")
+                return input_age()
+
+    name = input_name()
+    age = input_age()
 
     print(f"{name}さん（年齢:{age}）、ご登録ありがとうございます！")
 
-
-get_user_info()
-
-
+# main関数を呼び出し
+if __name__ == "__main__":
+    main()
 
 
