@@ -38,12 +38,7 @@ def main():
         if age == "" or age is None:
             print("年齢を入力してください")
             return input_age()
-        # 数字の入力のバリデーション
-        if not age.isdigit():
-            print("年齢は数字を入力してください")
-            return input_age()
-
-        # 0歳以上かどうかのバリデーション
+        # 数字入力 & 0歳以上かどうかのバリデーション
         if age.isdigit():
             age = int(age)
             if age >= 0:
@@ -51,6 +46,9 @@ def main():
             else:
                 print("年齢は0以上の正の数字を入力してください")
                 return input_age()
+        else:
+            print("年齢は数字を入力してください")
+            return input_age()
 
     name = input_name()
     age = input_age()
@@ -60,5 +58,3 @@ def main():
 # main関数を呼び出し
 if __name__ == "__main__":
     main()
-
-
