@@ -19,52 +19,50 @@ def input_process(input_type, name=None):
     :Return
         Boolean: nameもしくはageを返す or 再帰関数でinput_processを再実行
     """
-    # 名前のバリデーション関数
+
     def check_name(name):
-        """名前のバリデーションを行います"""
-    # 名前が空または  Noneの場合はエラーメッセージを表示
+        """名前のバリデーションを行います
+        :Args
+            name (str): 名前
+        :Return
+            Boolean: nameを返す or 再帰関数でinput_processを再実行
+        """
         if name == "" or name is None:
             print("名前を入力してください")
             return False
-        # 名前が10文字以上の場合はエラーメッセージを表示
         if len(name) > 10:
             print("名前は10文字以内で入力してください")
             return False
-        # それ以外は名前は有効
         return True
 
-    # 年齢のバリデーション関数
     def check_age(age):
-        """年齢のバリデーションを行います"""
-        # 年齢が空の場合エラーを表示
+        """年齢のバリデーションを行います
+        :Args
+            age (str): 年齢
+        :Return
+            Boolean: ageを返す or 再帰関数でinput_processを再実行
+        """
         if age == "" or age is None:
             print("年齢を入力してください")
             return False
-        # 数字が入力されていない場合&0歳以上でない場合はエラーを表示
         if age.isdigit():
             age = int(age)
-            # 年齢が0歳以上のバリデーション
             if age >= 0:
                 return True
             print("年齢は0以上の正の数字を入力してください")
             return False
-        # 数字が入力されているかの確認
         print("年齢は数字を入力してください")
         return False
 
-    # 名前入力を求めるメッセージとバリデーション関数の呼び出し
     if input_type == "name":
         name = input("あなたの名前を入力してください")
         if check_name(name):
             return name
-        # 無効な場合、再入力を求める
         return input_process("name")
-    # 年齢入力を求めるメッセージとバリデーション関数の呼び出し
     if input_type == "age":
         age = input(f"{name}さん、あなたの年齢は何歳ですか？")
         if check_age(age):
             return int(age)
-        # 無効な場合、再入力を求める
         return input_process("age", name)
 
 
