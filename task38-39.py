@@ -10,6 +10,36 @@ print("")
 ### 39. 標準入力
 print("次の仕様に従って、ユーザーの名前と年齢を入力し、最終的なメッセージを出力するプログラムを作成してください。")
 
+def check_name(name):
+    """名前のバリデーションを行います
+    :Args
+        name (str): 名前
+    """
+    if name == "" or name is None:
+        print("名前を入力してください")
+        return False
+    if len(name) > 10:
+        print("名前は10文字以内で入力してください")
+        return False
+    return True
+
+def check_age(age):
+    """年齢のバリデーションを行います
+    :Args
+        age (str): 年齢
+    """
+    if age == "" or age is None:
+        print("年齢を入力してください")
+        return False
+    if not age.isdigit():
+        print("年齢は数字を入力してください")
+        return False
+    age = int(age)
+    if age < 0:
+        print("年齢は0以上の正の数字を入力してください")
+        return False
+    return True
+
 def input_process(input_type, name=None):
     """
     名前と年齢を入力してもらい、バリデーションを行い、入力した内容に値が問題なければ値を返し、問題があればエラーメッセージを表示して再入力を促します
@@ -20,50 +50,21 @@ def input_process(input_type, name=None):
         Boolean: nameもしくはageを返す or 再帰関数でinput_processを再実行
     """
 
-    def check_name(name):
-        """名前のバリデーションを行います
-        :Args
-            name (str): 名前
-        :Return
-            Boolean: nameを返す or 再帰関数でinput_processを再実行
-        """
-        if name == "" or name is None:
-            print("名前を入力してください")
-            return False
-        if len(name) > 10:
-            print("名前は10文字以内で入力してください")
-            return False
-        return True
-
-    def check_age(age):
-        """年齢のバリデーションを行います
-        :Args
-            age (str): 年齢
-        :Return
-            Boolean: ageを返す or 再帰関数でinput_processを再実行
-        """
-        if age == "" or age is None:
-            print("年齢を入力してください")
-            return False
-        if age.isdigit():
-            age = int(age)
-            if age >= 0:
-                return True
-            print("年齢は0以上の正の数字を入力してください")
-            return False
-        print("年齢は数字を入力してください")
-        return False
-
     if input_type == "name":
-        name = input("あなたの名前を入力してください")
-        if check_name(name):
-            return name
-        return input_process("name")
-    if input_type == "age":
-        age = input(f"{name}さん、あなたの年齢は何歳ですか？")
-        if check_age(age):
-            return int(age)
-        return input_process("age", name)
+        prompt = "あなたの名前を入力してください"
+    elif input_type == "age":
+        prompt = f"{name}さん、あなたの年齢は何歳ですか？"
+    else:
+        raise ValueError("無効な入力タイプです")
+
+    input_val = input(prompt)
+
+    if input_type == "name" and check_name(input_val):
+        return input_val
+    elif input_type == "age" and check_age(input_val):
+        return input_val
+    else:
+        return input_process(input_type, name)
 
 
 def display_message(name, age):
