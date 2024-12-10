@@ -9,18 +9,25 @@
 
 import random
 
+STONE = 0
+SCISSORS = 1
+PAPER = 2
+
+HAND_TYPES = {
+STONE: "グー",
+SCISSORS: "チョキ",
+PAPER: "パー",
+}
+
 def get_computer_hand():
     """
     ランダムにコンピューターの出し手を決定する
 
-    Args:
-        computer_hands (list): 選択肢の数字[1、 2、 3]の要素のリスト
     Returns:
         computer_hand (int): コンピューターの出し手に該当する数字を返す
     """
-    computer_hands = [1, 2, 3]
-    computer_hand = random.choice(computer_hands)
-    return computer_hand
+
+    return random.choice(list(HAND_TYPES.keys()))
 
 def input_user_hand():
     """
@@ -31,7 +38,7 @@ def input_user_hand():
     Returns:
         user_hand (int): ユーザーのじゃんけんの出し手に該当する数字 or 再帰関数でinput_user_handを再実行
     """
-    user_hand = input("じゃんけん勝負！じゃんけんで出す手(1 = グー, 2 = チョキ, 3 = パー )を数字で選んでください。あなたの出し手: ")
+    user_hand = input("じゃんけん勝負！じゃんけんで出す手(0 = グー, 1 = チョキ, 2 = パー )を数字で選んでください。あなたの出し手: ")
     if check_user_hand(user_hand):
         return int(user_hand)
     return input_user_hand()
@@ -39,31 +46,47 @@ def input_user_hand():
 def check_user_hand(user_hand):
     """
     ユーザーのじゃんけんの出し手のバリデーションを実行
+        returns:
+            bool: 有効な出し手なら True、無効な場合は False
     """
-    if user_hand.isdigit() and int(user_hand) in [1, 2, 3]:
-        return True
-    else:
-        print("じゃんけんの出し手は1, 2, 3 のいずれかの数字を入力してください")
-        return False
+
+    try:
+        user_hand = int(user_hand)
+        if int(user_hand) in HAND_TYPES:
+            return True
+    except ValueError:
+        pass
+    print("じゃんけんの出し手は0, 1, 2 のいずれかの数字を入力してください")
+    return False
 
 def display_hands(user_hand, computer_hand):
     """
     じゃんけんの出し手を出力する
     """
-    user_hands = {1: "グー", 2: "チョキ", 3: "パー"}
-    print(f"あなたの出し手: {user_hands[user_hand]}")
-    print(f"コンピューターの出し手: {user_hands[computer_hand]}")
+    print(f"あなたの出し手: {HAND_TYPES[user_hand]}")
+    print(f"コンピューターの出し手: {HAND_TYPES[computer_hand]}")
 
 
-def display_winner(user_hand, computer_hand):
+def judge(user_hand, computer_hand):
+    """
+    勝敗を判定する
+
+    Returns:
+        int: 0:引き分け , 1: ユーザーのかち, 2:コンピューターの勝ち
+    """
+
+    return (user_hand - computer_hand + 3) % 3
+
+
+def display_winner(result):
     """
     じゃんけんの勝者を出力する
     """
-    if user_hand == computer_hand:
+    if result == 0:
         print("あいこ")
-    elif (user_hand == 1 and computer_hand == 2) or (user_hand == 2 and computer_hand == 3) or (user_hand == 3 and computer_hand == 1):
+    elif result == 1:
         print("あなたの勝ち!!")
-    elif (user_hand == 1 and computer_hand == 3) or (user_hand == 2 and computer_hand == 1) or (user_hand == 3 and computer_hand == 2):
+    elif result == 2:
         print("あなたの負け")
 
 
@@ -71,7 +94,8 @@ def main():
     user_hand = input_user_hand()
     computer_hand = get_computer_hand()
     display_hands(user_hand, computer_hand)
-    display_winner(user_hand, computer_hand)
+    result = judge(user_hand, computer_hand)
+    display_winner(result)
 
 if __name__ == "__main__":
     main()
