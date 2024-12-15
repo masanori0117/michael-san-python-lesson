@@ -14,10 +14,21 @@ SCISSORS = 1
 PAPER = 2
 
 HAND_TYPES = {
-STONE: "グー",
-SCISSORS: "チョキ",
-PAPER: "パー",
+    STONE: "グー",
+    SCISSORS: "チョキ",
+    PAPER: "パー",
 }
+
+DRAW = 0
+USER_WIN = 1
+COMPUTER_WIN = 2
+
+HAND_OPTIONS = (
+    f"{STONE} = {HAND_TYPES[STONE]}, "
+    f"{SCISSORS} = {HAND_TYPES[SCISSORS]}, "
+    f"{PAPER} = {HAND_TYPES[PAPER]}"
+)
+
 
 def get_computer_hand():
     """
@@ -38,7 +49,7 @@ def input_user_hand():
     Returns:
         user_hand (int): ユーザーのじゃんけんの出し手に該当する数字 or 再帰関数でinput_user_handを再実行
     """
-    user_hand = input("じゃんけん勝負！じゃんけんで出す手(0 = グー, 1 = チョキ, 2 = パー )を数字で選んでください。あなたの出し手: ")
+    user_hand = input(f"じゃんけん勝負！じゃんけんで出す手({HAND_OPTIONS})を数字で選んでください。あなたの出し手: ")
     if check_user_hand(user_hand):
         return int(user_hand)
     return input_user_hand()
@@ -50,12 +61,8 @@ def check_user_hand(user_hand):
             bool: 有効な出し手なら True、無効な場合は False
     """
 
-    try:
-        user_hand = int(user_hand)
-        if int(user_hand) in HAND_TYPES:
-            return True
-    except ValueError:
-        pass
+    if user_hand.isdigit() and int(user_hand) in HAND_TYPES:
+        return True
     print("じゃんけんの出し手は0, 1, 2 のいずれかの数字を入力してください")
     return False
 
@@ -71,6 +78,10 @@ def judge(user_hand, computer_hand):
     """
     勝敗を判定する
 
+    Args:
+        user_hand (int): ユーザーの出し手を表す数字 (0: グー, 1: チョキ, 2: パー）
+        computer_hand (int): コンピューターの出し手を表す数字 (0: グー, 1: チョキ, 2: パー）
+
     Returns:
         int: 0:引き分け , 1: ユーザーのかち, 2:コンピューターの勝ち
     """
@@ -82,11 +93,11 @@ def display_winner(result):
     """
     じゃんけんの勝者を出力する
     """
-    if result == 0:
+    if result == DRAW:
         print("あいこ")
-    elif result == 1:
+    elif result == USER_WIN:
         print("あなたの勝ち!!")
-    elif result == 2:
+    elif result == COMPUTER_WIN:
         print("あなたの負け")
 
 
