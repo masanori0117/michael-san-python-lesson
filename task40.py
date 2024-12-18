@@ -29,7 +29,6 @@ HAND_OPTIONS = (
     f"{PAPER} = {HAND_TYPES[PAPER]}"
 )
 
-
 def get_computer_hand():
     """
     ランダムにコンピューターの出し手を決定する
@@ -50,9 +49,9 @@ def input_user_hand():
         user_hand (int): ユーザーのじゃんけんの出し手に該当する数字 or 再帰関数でinput_user_handを再実行
     """
     user_hand = input(f"じゃんけん勝負！じゃんけんで出す手({HAND_OPTIONS})を数字で選んでください。あなたの出し手: ")
-    if check_user_hand(user_hand):
-        return int(user_hand)
-    return input_user_hand()
+    if not check_user_hand(user_hand):
+        return input_user_hand()
+    return int(user_hand)
 
 def check_user_hand(user_hand):
     """
@@ -61,10 +60,13 @@ def check_user_hand(user_hand):
             bool: 有効な出し手なら True、無効な場合は False
     """
 
-    if user_hand.isdigit() and int(user_hand) in HAND_TYPES:
-        return True
-    print("じゃんけんの出し手は0, 1, 2 のいずれかの数字を入力してください")
-    return False
+    if not user_hand.isdigit():
+        print("じゃんけんの出し手は数字を入力してください")
+        return False
+    if int(user_hand) not in HAND_TYPES:
+        print("じゃんけんの出し手は0, 1, 2 のいずれかの数字を入力してください")
+        return False
+    return True
 
 def display_hands(user_hand, computer_hand):
     """
@@ -100,13 +102,34 @@ def display_winner(result):
     elif result == COMPUTER_WIN:
         print("あなたの負け")
 
+def should_retry():
+    """
+    ゲームをもう一度プレイするか確認する
 
-def main():
+    Returns:
+        bool: ゲームを再度プレイする場合は True、終了する場合は False
+    """
+    retry = input("もう一度プレイしますか？ (y/n): ")
+    return retry.lower() == 'y'
+
+def play_game():
+    """
+    1回分のじゃんけんゲームをプレイする
+    """
     user_hand = input_user_hand()
     computer_hand = get_computer_hand()
     display_hands(user_hand, computer_hand)
     result = judge(user_hand, computer_hand)
     display_winner(result)
+
+def main():
+    """
+    ゲームのメイン処理
+    """
+    play_game()
+    while should_retry():
+        play_game()
+    print("ゲームを終了します。")
 
 if __name__ == "__main__":
     main()
