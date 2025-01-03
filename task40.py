@@ -29,6 +29,9 @@ HAND_OPTIONS = (
     f"{PAPER} = {HAND_TYPES[PAPER]}"
 )
 
+RETRY_YES = 'y'
+RETRY_NO = 'n'
+
 def get_computer_hand():
     """
     ランダムにコンピューターの出し手を決定する
@@ -109,7 +112,10 @@ def should_retry():
     Returns:
         bool: ゲームを再度プレイする場合は True、終了する場合は False
     """
-    retry = input("もう一度プレイしますか？ (y/n): ")
+    retry = input(f"もう一度プレイしますか？ ({RETRY_YES}/{RETRY_NO}): ")
+    if retry not in (RETRY_YES, RETRY_NO):
+        print(f"入力が無効です。{RETRY_YES} か {RETRY_NO} を入力してください。")
+        return should_retry()  # 再帰的に再入力を求める
     return retry.lower() == 'y'
 
 def play_game():
@@ -122,14 +128,17 @@ def play_game():
     result = judge(user_hand, computer_hand)
     display_winner(result)
 
+    if should_retry():
+        play_game()
+    else:
+        print("ゲームを終了します。")
+
+
 def main():
     """
     ゲームのメイン処理
     """
     play_game()
-    while should_retry():
-        play_game()
-    print("ゲームを終了します。")
 
 if __name__ == "__main__":
     main()
