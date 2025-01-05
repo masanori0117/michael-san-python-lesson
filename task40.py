@@ -116,7 +116,7 @@ def should_retry():
     if retry not in (RETRY_YES, RETRY_NO):
         print(f"入力が無効です。{RETRY_YES} か {RETRY_NO} を入力してください。")
         return should_retry()  # 再帰的に再入力を求める
-    return retry.lower() == 'y'
+    return retry.lower() == RETRY_YES
 
 def play_game():
     """
@@ -129,7 +129,7 @@ def play_game():
     display_winner(result)
 
     if should_retry():
-        play_game()
+        return play_game()
     else:
         print("ゲームを終了します。")
 
