@@ -5,8 +5,8 @@ print(' - キー: "age", 値: 25 ')
 print(' - キー: "city", 値: "Tokyo" ')
 print('作成した辞書を出力してください。')
 
-dictionary = {"name": "Alice", "age": 25, "city": "Tokyo"}
-print(dictionary)
+person = {"name": "Alice", "age": 25, "city": "Tokyo"}
+print(person)
 
 print("### 42. 辞書から値を取得")
 
