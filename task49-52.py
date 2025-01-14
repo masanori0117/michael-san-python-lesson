@@ -7,7 +7,7 @@ words = ["apple", "banana", "cherry"]
 
 words = ["apple", "banana", "cherry"]
 
-words_dict = {word: len(words) for word in words}
+words_dict = {word: len(word) for word in words}
 print(words_dict)
 
 # 50. 複雑な辞書の操作
@@ -30,8 +30,7 @@ data = {
 
 user_names = []
 
-for user_info in data.values():
-    user_names.append(user_info["name"])
+user_names = [user_info["name"] for user_info in data.values()]
 print(user_names)
 
 # 51. デフォルト値の取得
@@ -62,6 +61,6 @@ data = {
     "user2": {"name": "Nina", "age": 31},
     "user3": {"name": "Oscar", "age": 22},
 }
-
-print(data["user2"]["name"])
+user2_name = data.get("user2", {}).get("name","unknown")
+print(user2_name)
 
