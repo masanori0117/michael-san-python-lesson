@@ -82,10 +82,10 @@ class Dog(Animal):
         return:
             犬の鳴き声(string)
         """
-        return "ワンワン"
+        return print("ワンワン")
 
 animal = Animal()
-print(animal.speak())
+animal.speak()
 
 dog = Dog()
 print(dog.speak())
