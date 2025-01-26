@@ -45,35 +45,44 @@ class BankAccount:
     def __init__(self, initial_balance=0):
         self.__balance = initial_balance
 
-    def get_balance(self):
+    @property
+    def balance(self):
         """
-            残高を取得するゲッター
-            return:
-                balance(int): 残高
+        残高をプロパティとして取得
         """
-        return f"残高: {self.__balance}"
+        return self.__balance
 
-    def set_deposit(self, amount):
-        """預金額をセットするセッター"""
+    def deposit(self, amount):
+        """
+        預入メソッド
+        amountが負の値の場合はエラー表示
+        """
         if amount < 0:
-            return print("預け入れ金額は正の数である必要があります。")
+            print("預け入れ金額は正の数である必要があります。")
+            return
         self.__balance += amount
 
-    def set_withdraw(self, amount):
-        """引き出し額をセットするセッター"""
+    def withdraw(self, amount):
+        """
+        引出メソッド
+        amountが負の値の場合はエラー表示
+        現在の残高を超える場合もエラー表示
+        """
         if amount < 0:
-            return print("預け入れ金額は正の数である必要があります。")
+            print("預け入れ金額は正の数である必要があります。")
+            return
         if amount > self.__balance:
-            return print("残高が不足しています。")
+            print("残高が不足しています。")
+            return
         self.__balance -= amount
 
 if __name__ == "__main__":
 
     account = BankAccount(10000)
-    print(account.get_balance())
-    account.set_deposit(5000)
-    account.set_withdraw(1000)
-    print(account.get_balance())
+    print(f"初期残高: {account.balance}")
+    account.deposit(5000)
+    account.withdraw(1000)
+    print(f"取引後後残高: {account.balance}")
 
 ### 68. 演算子のオーバーロード
 print("`Vector`というクラスを作成し、2つの属性`x`と`y`を持たせてください。このクラスで`+`演算子をオーバーロードして、2つの`Vector`オブジェクトを足し合わせて新しい`Vector`を返すようにしてください。")
