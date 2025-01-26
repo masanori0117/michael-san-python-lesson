@@ -8,8 +8,7 @@ class Engine:
     def __init__(self, horsepower):
         self.horsepower = horsepower
 
-
-class Car(Engine):
+class Car:
 
     def __init__(self, horsepower):
         self.engine = Engine(horsepower)
@@ -27,7 +26,6 @@ print("`Student`クラスを作成し、`name`（文字列）と`score`（整数
 class Student:
 
     student_count = 0
-
     def __init__(self, name, score):
         self.name = name
         self.score = score
@@ -53,13 +51,7 @@ class BankAccount:
             return:
                 balance(int): 残高
         """
-        return print(f"残高: {self.__balance}")
-
-    def set_balance(self, amount):
-        """残高をセットするセッター"""
-        if amount < 0:
-            return ("預け入れ金額は正の数である必要があります。")
-        return self.__balance
+        return f"残高: {self.__balance}"
 
     def set_deposit(self, amount):
         """預金額をセットするセッター"""
@@ -78,10 +70,10 @@ class BankAccount:
 if __name__ == "__main__":
 
     account = BankAccount(10000)
-    account.get_balance()
+    print(account.get_balance())
     account.set_deposit(5000)
     account.set_withdraw(1000)
-    account.get_balance()
+    print(account.get_balance())
 
 ### 68. 演算子のオーバーロード
 print("`Vector`というクラスを作成し、2つの属性`x`と`y`を持たせてください。このクラスで`+`演算子をオーバーロードして、2つの`Vector`オブジェクトを足し合わせて新しい`Vector`を返すようにしてください。")
@@ -91,12 +83,12 @@ class Vector:
         self.x = x
         self.y = y
 
-    def __add__(self, number):
+    def __add__(self, other):
         """
         number も Vector クラスのインスタンスを想定。
-        self.x + number.x, self.y + number.y の結果を持つ新しい Vector を返す
+        self.x + other.x, self.y + other.y の結果を持つ新しい Vector を返す
         """
-        return Vector(self.x + number.x, self.y + number.y)
+        return Vector(self.x + other.x, self.y + other.y)
 
     def __str__(self):
         """
