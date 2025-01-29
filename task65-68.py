@@ -14,10 +14,10 @@ class Car:
         self.engine = Engine(horsepower)
 
     def get_engine_power(self):
-        return print(f"{self.engine.horsepower}")
+        return self.engine.horsepower
 
 car = Car(25)
-car.get_engine_power()
+print(car.get_engine_power())
 
 
 ### 66. クラス変数の使用
