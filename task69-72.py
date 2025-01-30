@@ -7,21 +7,13 @@ class Employee:
         self.name = name
         self.salary = salary
 
-    def create_employee(self, name, salary):
-        self.name = name
-        self.salary = salary
-
-    @staticmethod
-    def create_employee(name, salary):
-        return Employee(name, salary)
-
-    def __str__(self):
-        return f"Employee (name={self.name}, salary={self.salary})"
+    @classmethod
+    def create_employee(cls, name, salary):
+        return cls(name, salary)
 
 employ1 = Employee.create_employee("Alice", 50000)
-print(employ1)
-print(employ1.name)
-print(employ1.salary)
+print(employ1.name, employ1.salary)
+
 
 print("")
 print("")
