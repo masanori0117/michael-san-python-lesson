@@ -25,6 +25,7 @@ class MathOperations:
     def add(num1, num2):
         return num1 + num2
 
+    @staticmethod
     def multiply(num1, num2):
         return num1 * num2
 
@@ -64,8 +65,8 @@ print("- `Rectangle`クラスには`width`（幅）と`height`（高さ）を持
 
 from abc import ABC, abstractmethod
 
-@abstractmethod
-class Shape:
+class Shape(ABC):
+    @abstractmethod
     def area(self):
         pass
 
