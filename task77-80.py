@@ -54,8 +54,14 @@ class Singleton:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-s1 = Singleton()
-s2 = Singleton()
+    def __init__(self, value):
+        if not hasattr(self, 'value'):
+            self.value = value
+
+s1 = Singleton(10)
+s2 = Singleton(20)
+print(s1.value)
+print(s2.value)
 print (s1 is s2)
 
 
