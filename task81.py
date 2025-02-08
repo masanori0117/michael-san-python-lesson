@@ -6,8 +6,8 @@ print("・残額、入金、引き出しの機能を実装")
 print("実際にATMに必要な機能をリストアップして、ご自由に開発してみてください！")
 
 class ATM:
-    def __init__(self, initial_balance=0):
-        self.balance = initial_balance
+    def __init__(self, balance=0):
+        self.balance = balance
 
     def check_balance(self):
         print(f"現在の残高: {self.balance}円")
@@ -43,8 +43,7 @@ def main(atm):
     print("1: 残高照会")
     print("2: 入金")
     print("3: 引き出し")
-    print("4: 取引履歴")
-    print("5: 終了")
+    print("4: 終了")
 
     choice = input("選択してください (1-5): ")
 
@@ -57,8 +56,6 @@ def main(atm):
         amount = atm.check_value("引き出し額を入力してください: ")
         atm.withdraw(amount)
     elif choice == "4":
-        atm.show_transactions()
-    elif choice == "5":
         print("ご利用ありがとうございました。")
         return
     else:
@@ -66,6 +63,7 @@ def main(atm):
 
     main(atm)
 
+
 if __name__ == "__main__":
-    atm_instance = ATM(initial_balance=10000)
+    atm_instance = ATM(balance=10000)
     main(atm_instance)
