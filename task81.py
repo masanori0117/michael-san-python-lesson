@@ -30,32 +30,42 @@ class ATM:
         else:
             print("無効な金額です。")
 
-
-def main():
-    atm = ATM(initial_balance=10000) 
-
-    while True:
-        print("\nATMメニュー:")
-        print("1: 残高照会")
-        print("2: 入金")
-        print("3: 引き出し")
-        print("4: 終了")
-
-        choice = input("選択してください (1-5): ")
-
-        if choice == "1":
-            atm.check_balance()
-        elif choice == "2":
-            amount = int(input("入金額を入力してください: "))
-            atm.deposit(amount)
-        elif choice == "3":
-            amount = int(input("引き出し額を入力してください: "))
-            atm.withdraw(amount)
-        elif choice == "4":
-            print("ご利用ありがとうございました。")
-            break
+    def check_value(self, value):
+        amount = input(value)
+        if amount.isdigit():
+            return int(amount)
         else:
-            print("無効な選択です。")
+            print("無効な入力です。数値を入力してください。")
+            return self.check_value(value)
+
+def main(atm):
+    print("\nATMメニュー:")
+    print("1: 残高照会")
+    print("2: 入金")
+    print("3: 引き出し")
+    print("4: 取引履歴")
+    print("5: 終了")
+
+    choice = input("選択してください (1-5): ")
+
+    if choice == "1":
+        atm.check_balance()
+    elif choice == "2":
+        amount = atm.check_value("入金額を入力してください: ")
+        atm.deposit(amount)
+    elif choice == "3":
+        amount = atm.check_value("引き出し額を入力してください: ")
+        atm.withdraw(amount)
+    elif choice == "4":
+        atm.show_transactions()
+    elif choice == "5":
+        print("ご利用ありがとうございました。")
+        return
+    else:
+        print("無効な選択です。")
+
+    main(atm)
 
 if __name__ == "__main__":
-    main()
+    atm_instance = ATM(initial_balance=10000)
+    main(atm_instance)
