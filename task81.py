@@ -7,8 +7,8 @@ print("実際にATMに必要な機能をリストアップして、ご自由に�
 
 
 class ATM:
-    def __init__(self, initial_balance=0):
-        self.balance = initial_balance
+    def __init__(self, balance=0):
+        self.balance = balance
 
     def check_balance(self):
         print(f"現在の残高: {self.balance}円")
@@ -67,5 +67,5 @@ def main(atm):
     main(atm)
 
 if __name__ == "__main__":
-    atm = ATM(initial_balance=10000)
+    atm = ATM(balance=10000)
     main(atm)
