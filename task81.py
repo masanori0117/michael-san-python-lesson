@@ -7,65 +7,79 @@ print("実際にATMに必要な機能をリストアップして、ご自由に�
 
 
 class ATM:
+
+    CHECK_BALANCE = "1"
+    DEPOSIT = "2"
+    WITHDRAW = "3"
+    EXIT = "4"
+
     def __init__(self, balance=0):
         self.balance = balance
 
     def check_balance(self):
         print(f"現在の残高: {self.balance}円")
 
-    def check_amount(self, value):
+    def input_valid_amount(self, value):
         amount = input(value)
         if amount.isdigit():
             return int(amount)
         else:
-            print("無効な金額です。数字を記入してください")
-            return self.check_amount(value)
+            print("無効な金額です。正の数字を記入してください")
+            return self.input_valid_amount(value)
 
-    def deposit(self, amount):
-        if amount > 0:
+    def is_valid_deposit(self, amount):
+        return amount > 0
+
+    def is_valid_withdraw(self, amount):
+        if amount <= 0:
+            print("無効な金額です。正の数を入力してください。")
+            return False
+        if amount > self.balance:
+            print("残高不足です。引き出しできません。")
+            return False
+        return True
+
+    def deposit(self):
+        amount = self.input_valid_amount("入金額を入力してください: ")
+        if self.is_valid_deposit(amount):
             self.balance += amount
             print(f"{amount}円を入金しました。")
             print(f"預金残高: {self.balance}円")
         else:
             print("無効な金額です。")
 
-    def withdraw(self, amount):
-        if amount > 0 and amount <= self.balance:
+    def withdraw(self):
+        amount = self.input_valid_amount("引き出し額を入力してください: ")
+        if self.is_valid_withdraw(amount):
             self.balance -= amount
             print(f"{amount}円を引き出しました。")
             print(f"預金残高: {self.balance}円")
-        elif amount > self.balance:
-            print("残高不足です。")
+
+    def run(self):
+        print("\nATMメニュー:")
+        print(f"{self.CHECK_BALANCE}: 残高照会")
+        print(f"{self.DEPOSIT}: 入金")
+        print(f"{self.WITHDRAW}: 引き出し")
+        print(f"{self.EXIT}: 終了")
+
+        choice = input("選択してください (1-5): ")
+
+        if choice == self.CHECK_BALANCE:
+            self.check_balance()
+            return self.run()
+        elif choice == self.DEPOSIT:
+            self.deposit()
+            return self.run()
+        elif choice == self.WITHDRAW:
+            self.withdraw()
+            return self.run()
+        elif choice == self.EXIT:
+            print("ご利用ありがとうございました。")
+            return
         else:
-            print("無効な金額です。")
-
-
-def main(atm):
-
-    print("\nATMメニュー:")
-    print("1: 残高照会")
-    print("2: 入金")
-    print("3: 引き出し")
-    print("4: 終了")
-
-    choice = input("選択してください (1-5): ")
-
-    if choice == "1":
-        atm.check_balance()
-    elif choice == "2":
-        amount = atm.check_amount("入金額を入力してください: ")
-        atm.deposit(amount)
-    elif choice == "3":
-        amount = atm.check_amount("引き出し額を入力してください: ")
-        atm.withdraw(amount)
-    elif choice == "4":
-        print("ご利用ありがとうございました。")
-        return
-    else:
-        print("無効な選択です。")
-
-    main(atm)
+            print("無効な選択です。")
+            return self.run()
 
 if __name__ == "__main__":
     atm = ATM(balance=10000)
-    main(atm)
+    atm.run()
