@@ -8,7 +8,7 @@ print("実際にATMに必要な機能をリストアップして、ご自由に�
 
 class ATM:
 
-    CHECK_BALANCE = "1"
+    SHOW_BALANCE = "1"
     DEPOSIT = "2"
     WITHDRAW = "3"
     EXIT = "4"
@@ -16,7 +16,29 @@ class ATM:
     def __init__(self, balance=0):
         self.balance = balance
 
-    def check_balance(self):
+    def run(self):
+        print("\nATMメニュー:")
+        print(f"{self.SHOW_BALANCE}: 残高照会")
+        print(f"{self.DEPOSIT}: 入金")
+        print(f"{self.WITHDRAW}: 引き出し")
+        print(f"{self.EXIT}: 終了")
+
+        choice = input("選択してください (1-5): ")
+
+        if choice == self.SHOW_BALANCE:
+            self.show_balance()
+        elif choice == self.DEPOSIT:
+            self.deposit()
+        elif choice == self.WITHDRAW:
+            self.withdraw()
+        elif choice == self.EXIT:
+            print("ご利用ありがとうございました。")
+            return
+        else:
+            print("無効な選択です。")
+        return self.run()
+
+    def show_balance(self):
         print(f"現在の残高: {self.balance}円")
 
     def input_valid_amount(self, value):
@@ -54,31 +76,6 @@ class ATM:
             self.balance -= amount
             print(f"{amount}円を引き出しました。")
             print(f"預金残高: {self.balance}円")
-
-    def run(self):
-        print("\nATMメニュー:")
-        print(f"{self.CHECK_BALANCE}: 残高照会")
-        print(f"{self.DEPOSIT}: 入金")
-        print(f"{self.WITHDRAW}: 引き出し")
-        print(f"{self.EXIT}: 終了")
-
-        choice = input("選択してください (1-5): ")
-
-        if choice == self.CHECK_BALANCE:
-            self.check_balance()
-            return self.run()
-        elif choice == self.DEPOSIT:
-            self.deposit()
-            return self.run()
-        elif choice == self.WITHDRAW:
-            self.withdraw()
-            return self.run()
-        elif choice == self.EXIT:
-            print("ご利用ありがとうございました。")
-            return
-        else:
-            print("無効な選択です。")
-            return self.run()
 
 if __name__ == "__main__":
     atm = ATM(balance=10000)
