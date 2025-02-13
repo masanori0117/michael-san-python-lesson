@@ -6,7 +6,18 @@ print("・残額、入金、引き出しの機能を実装")
 print("実際にATMに必要な機能をリストアップして、ご自由に開発してみてください！")
 
 
-class ATM:
+class ErrorMessage:
+    INVALID_INPUT_AMOUNT = "無効な金額です。正の数字を記入してください"
+    INVALID_COMMAND = "無効な選択です。"
+    INSUFFICIENT_AMOUNT = "残高不足です。引き出しできません。"
+
+class OperationPrompt:
+    SELECT_PROMPT = "選択してください (1-5): "
+    THANK_YOU_MESSAGE = "ご利用ありがとうございました。"
+    DEPOSIT_AMOUNT_PROMPT = "入金額を入力してください: "
+    WITHDRAW_AMOUNT_PROMPT = "引き出し額を入力してください: "
+
+class ATM(ErrorMessage, OperationPrompt):
 
     SHOW_BALANCE = "1"
     DEPOSIT = "2"
@@ -23,7 +34,7 @@ class ATM:
         print(f"{self.WITHDRAW}: 引き出し")
         print(f"{self.EXIT}: 終了")
 
-        choice = input("選択してください (1-5): ")
+        choice = input(OperationPrompt.SELECT_PROMPT)
 
         if choice == self.SHOW_BALANCE:
             self.show_balance()
@@ -32,46 +43,46 @@ class ATM:
         elif choice == self.WITHDRAW:
             self.withdraw()
         elif choice == self.EXIT:
-            print("ご利用ありがとうございました。")
+            print(OperationPrompt.THANK_YOU_MESSAGE)
             return
         else:
-            print("無効な選択です。")
+            print(ErrorMessage.INVALID_COMMAND)
         return self.run()
 
     def show_balance(self):
         print(f"現在の残高: {self.balance}円")
 
-    def input_valid_amount(self, value):
+    def input_amount(self, value):
         amount = input(value)
         if amount.isdigit():
             return int(amount)
         else:
-            print("無効な金額です。正の数字を記入してください")
-            return self.input_valid_amount(value)
+            print(ErrorMessage.INVALID_INPUT_AMOUNT)
+            return self.input_amount(value)
 
     def is_valid_deposit(self, amount):
         return amount > 0
 
     def is_valid_withdraw(self, amount):
         if amount <= 0:
-            print("無効な金額です。正の数を入力してください。")
+            print(ErrorMessage.INVALID_INPUT_AMOUNT)
             return False
         if amount > self.balance:
-            print("残高不足です。引き出しできません。")
+            print(ErrorMessage.INSUFFICIENT_AMOUNT)
             return False
         return True
 
     def deposit(self):
-        amount = self.input_valid_amount("入金額を入力してください: ")
+        amount = self.input_amount(OperationPrompt.DEPOSIT_AMOUNT_PROMPT)
         if self.is_valid_deposit(amount):
             self.balance += amount
             print(f"{amount}円を入金しました。")
             print(f"預金残高: {self.balance}円")
         else:
-            print("無効な金額です。")
+            print(ErrorMessage.INVALID_INPUT_AMOUNT)
 
     def withdraw(self):
-        amount = self.input_valid_amount("引き出し額を入力してください: ")
+        amount = self.input_amount(OperationPrompt.WITHDRAW_AMOUNT_PROMPT)
         if self.is_valid_withdraw(amount):
             self.balance -= amount
             print(f"{amount}円を引き出しました。")
