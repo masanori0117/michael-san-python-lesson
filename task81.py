@@ -17,6 +17,32 @@ class OperationPrompt:
     DEPOSIT_AMOUNT_PROMPT = "入金額を入力してください: "
     WITHDRAW_AMOUNT_PROMPT = "引き出し額を入力してください: "
 
+class Validation(OperationPrompt):
+    @staticmethod
+    def is_positive_number(value):
+        return value.isdigit() and int(value) > 0
+
+    @staticmethod
+    def can_withdraw(amount, balance):
+        return amount <= balance
+
+    @staticmethod
+    def is_valid_deposit(amount):
+        if amount < 0:
+            print(ErrorMessage.INVALID_INPUT_AMOUNT)
+            return False
+        return True
+
+    @staticmethod
+    def is_valid_withdraw(amount, balance):
+        if amount <= 0:
+            print(ErrorMessage.INVALID_INPUT_AMOUNT)
+            return False
+        if amount > balance:
+            print(ErrorMessage.INSUFFICIENT_AMOUNT)
+            return False
+        return True
+
 class ATM(ErrorMessage, OperationPrompt):
 
     SHOW_BALANCE = "1"
@@ -54,36 +80,22 @@ class ATM(ErrorMessage, OperationPrompt):
 
     def input_amount(self, value):
         amount = input(value)
-        if amount.isdigit():
+        if Validation.is_positive_number(amount):
             return int(amount)
         else:
             print(ErrorMessage.INVALID_INPUT_AMOUNT)
             return self.input_amount(value)
 
-    def is_valid_deposit(self, amount):
-        return amount > 0
-
-    def is_valid_withdraw(self, amount):
-        if amount <= 0:
-            print(ErrorMessage.INVALID_INPUT_AMOUNT)
-            return False
-        if amount > self.balance:
-            print(ErrorMessage.INSUFFICIENT_AMOUNT)
-            return False
-        return True
-
     def deposit(self):
         amount = self.input_amount(OperationPrompt.DEPOSIT_AMOUNT_PROMPT)
-        if self.is_valid_deposit(amount):
+        if Validation.is_valid_deposit(amount):
             self.balance += amount
             print(f"{amount}円を入金しました。")
             print(f"預金残高: {self.balance}円")
-        else:
-            print(ErrorMessage.INVALID_INPUT_AMOUNT)
 
     def withdraw(self):
         amount = self.input_amount(OperationPrompt.WITHDRAW_AMOUNT_PROMPT)
-        if self.is_valid_withdraw(amount):
+        if Validation.is_valid_withdraw(amount, self.balance):
             self.balance -= amount
             print(f"{amount}円を引き出しました。")
             print(f"預金残高: {self.balance}円")
