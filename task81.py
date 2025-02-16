@@ -17,33 +17,29 @@ class OperationPrompt:
     DEPOSIT_AMOUNT_PROMPT = "入金額を入力してください: "
     WITHDRAW_AMOUNT_PROMPT = "引き出し額を入力してください: "
 
-class Validation(OperationPrompt):
-    @staticmethod
-    def is_positive_number(value):
-        return value.isdigit() and int(value) > 0
 
-    @staticmethod
-    def can_withdraw(amount, balance):
-        return amount <= balance
+class InputValidation(OperationPrompt):
+    def validate_positive_number(self, amount):
+        return amount.isdigit() and int(amount) > 0
 
-    @staticmethod
-    def is_valid_deposit(amount):
+class DepositValidation(InputValidation):
+    def validate_deposit(self, amount):
         if amount < 0:
-            print(ErrorMessage.INVALID_INPUT_AMOUNT)
+            self.display_error(ErrorMessage.INVALID_INPUT_AMOUNT)
             return False
         return True
 
-    @staticmethod
-    def is_valid_withdraw(amount, balance):
-        if amount <= 0:
-            print(ErrorMessage.INVALID_INPUT_AMOUNT)
+class WithdrawValidation(InputValidation):
+    def validate_withdraw(self, amount, balance):
+        if amount < 0:
+            self.display_error(ErrorMessage.INVALID_INPUT_AMOUNT)
             return False
         if amount > balance:
-            print(ErrorMessage.INSUFFICIENT_AMOUNT)
+            self.display_error(ErrorMessage.INSUFFICIENT_AMOUNT)
             return False
         return True
 
-class ATM(ErrorMessage, OperationPrompt):
+class ATM(ErrorMessage, DepositValidation, WithdrawValidation):
 
     SHOW_BALANCE = "1"
     DEPOSIT = "2"
@@ -80,7 +76,7 @@ class ATM(ErrorMessage, OperationPrompt):
 
     def input_amount(self, value):
         amount = input(value)
-        if Validation.is_positive_number(amount):
+        if self.validate_positive_number(amount):
             return int(amount)
         else:
             print(ErrorMessage.INVALID_INPUT_AMOUNT)
@@ -88,14 +84,14 @@ class ATM(ErrorMessage, OperationPrompt):
 
     def deposit(self):
         amount = self.input_amount(OperationPrompt.DEPOSIT_AMOUNT_PROMPT)
-        if Validation.is_valid_deposit(amount):
+        if self.validate_deposit(amount):
             self.balance += amount
             print(f"{amount}円を入金しました。")
             print(f"預金残高: {self.balance}円")
 
     def withdraw(self):
         amount = self.input_amount(OperationPrompt.WITHDRAW_AMOUNT_PROMPT)
-        if Validation.is_valid_withdraw(amount, self.balance):
+        if self.validate_withdraw(amount, self.balance):
             self.balance -= amount
             print(f"{amount}円を引き出しました。")
             print(f"預金残高: {self.balance}円")
