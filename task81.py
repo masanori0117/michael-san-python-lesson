@@ -20,10 +20,25 @@ class OperationPrompt:
 
 
 class InputValidation:
+    def __init__(self):
+        self.errors = []
+
     def validate(self, amount):
         if not isinstance(amount, str):
             amount = str(amount)
-        return amount.isdigit() and int(amount) > 0
+
+        try:
+            amount_int = int(amount)
+            if amount_int <= 0:
+                self.errors.append("0より大きい金額を入力してください")
+                return False
+            return True
+        except ValueError:
+            self.errors.append("数値を入力してください")
+            return False
+
+    def get_errors(self):
+        return self.errors
 
 
 class DepositValidation(InputValidation):
@@ -33,7 +48,13 @@ class DepositValidation(InputValidation):
 
 class WithdrawValidation(InputValidation):
     def validate(self, amount, balance):
-        return super().validate(amount) and int(amount) <= balance
+        if not super().validate(amount):
+            return False
+
+        if int(amount) > balance:
+            self.errors.append("残高不足です。引き出しできません")
+            return False
+        return True
 
 
 class ATM:
@@ -44,8 +65,6 @@ class ATM:
 
     def __init__(self, balance=0):
         self.balance = balance
-        self.deposit_validation = DepositValidation()
-        self.withdraw_validation = WithdrawValidation()
 
     def run(self):
         print("\nATMメニュー:")
@@ -74,26 +93,35 @@ class ATM:
 
     def input_amount(self, prompt):
         amount = input(prompt)
-        if self.deposit_validation.validate(amount):
+        validation = InputValidation()
+        if validation.validate(amount):
             return int(amount)
-        print(ErrorMessage.INVALID_INPUT_AMOUNT)
+        
+        for error in validation.get_errors():
+            print(error)
         return self.input_amount(prompt)
 
     def deposit(self):
         amount = self.input_amount(OperationPrompt.DEPOSIT_AMOUNT_PROMPT)
-        if self.deposit_validation.validate(amount):
+        validation = DepositValidation()
+        if validation.validate(amount):
             self.balance += amount
             print(f"{amount}円を入金しました。")
             print(f"預金残高: {self.balance}円")
+        else:
+            for error in validation.get_errors():
+                print(error)
 
     def withdraw(self):
         amount = self.input_amount(OperationPrompt.WITHDRAW_AMOUNT_PROMPT)
-        if self.withdraw_validation.validate(amount, self.balance):
+        validation = WithdrawValidation()
+        if validation.validate(amount, self.balance):
             self.balance -= amount
             print(f"{amount}円を引き出しました。")
             print(f"預金残高: {self.balance}円")
         else:
-            print(ErrorMessage.INSUFFICIENT_AMOUNT)
+            for error in validation.get_errors():
+                print(error)
 
 
 if __name__ == "__main__":
